@@ -11,7 +11,7 @@ export class Server {
 
     constructor() {
         this.app = express();
-        this.port = config.port;
+        this.port = config.server.port;
         this.routes();
         this.app.use(notFoundMiddleware);
         this.app.use(express.json());
