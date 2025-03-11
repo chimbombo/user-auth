@@ -1,6 +1,6 @@
 import express, { Application } from "express";
 import { config } from "@config/index";
-import { router } from "@routes/userRoutes";
+import router from "@routes/userRoutes";
 import { logger } from "@config/logger";
 import { notFoundMiddleware } from "@middlewares/notFound";
 import "reflect-metadata";

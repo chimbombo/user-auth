@@ -1,24 +1,15 @@
 import { Request, Response } from "express";
-import { status } from "http-status";
-import { DataBase } from "@model/dataBase"; { }
-import { Repository } from "typeorm";
+import { UserService } from "../services/UserService";
 
-export class userController {
+export class UserController {
+    private static userService = new UserService();
 
-    private readonly dataBase: DataBase;
-
-    constructor() {
-        this.dataBase = new DataBase();
-        this.dataBase.connect();
-        this.dataBase.getDataSource();
-    }
-
-    // TODO: buildService debe ser del tipo userService
-    buildService() {
-        const userRepository: Repository<User> = dataSource.getRepository(User);
-    }
-
-    public static async logInUser(req: Request, res: Response): Promise<void> {
-        res.send("Hello World").status(status.OK);
+    static async createUser(req: Request, res: Response) {
+        try {
+            const user = await this.userService.createUser(req.body);
+            return res.status(201).json(user);
+        } catch (error) {
+            return res.status(500).json({ message: "Error al crear usuario" });
+        }
     }
 }
