@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import { User } from "@entities/User";
 dotenv.config();
 
 export const config = {
@@ -6,15 +7,18 @@ export const config = {
         port: Number(process.env.PORT) || 3000,
     },
     database: {
-        host: process.env.HOST,
-        username: process.env.USERNAME,
-        password: process.env.PASSWORD,
-        database: process.env.DATABASE,
+        host: process.env.DB_HOST,
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_DATABASE,
         type: "postgres",
         logging: false,
-        schema: process.env.SCHEMA,
-        entities: ["src/entities/*.ts"],
+        schema: process.env.DB_SCHEMA,
+        entities: [User],
         port: Number(process.env.DB_PORT),
         synchronize: true,
+        ssl: {
+            rejectUnauthorized: false,
+        },
     },
 };

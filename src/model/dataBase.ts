@@ -1,28 +1,6 @@
 import { DataSource, DataSourceOptions } from "typeorm";
 import { config } from "@config/index";
 
-// export class Database {
-//     private static instance: DataSource = new DataSource(config.database as DataSourceOptions);
-
-//     // constructor() {
-//     //     this.instance = new DataSource(config.database as DataSourceOptions);
-//     // }
-
-//     static async connect() {
-//         try {
-//             if (!Database.instance.isInitialized) {
-//                 await this.instance.initialize();
-//                 console.log("Database connection established.");
-//             }
-//         } catch (error) {
-//             console.error("Error connecting to database:", error);
-//         }
-//     }
-
-//     getInstance(): DataSource {
-//         return Database.instance;
-//     }
-// }
 
 class Database {
     private static instance: DataSource;
@@ -32,6 +10,16 @@ class Database {
             this.instance = new DataSource(config.database as DataSourceOptions);
         }
         return this.instance;
+    }
+
+    public static async initialize(): Promise<void> {
+        try {
+            await this.getInstance().initialize();
+            console.log("Database connected successfully");
+        } catch (error) {
+            console.error("Error during Data Source initialization", error);
+            throw new Error("Database connection failed");
+        }
     }
 }
 

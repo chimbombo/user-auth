@@ -8,7 +8,7 @@ import { UserController } from "@controllers/UserController";
 //     UserController.createUser(req, res);
 // })
 
-export class UserRoutes {
+class UserRoutes {
     private router: Router;
 
     constructor() {
@@ -17,7 +17,7 @@ export class UserRoutes {
     }
 
     private initializeRoutes() {
-        this.router.post("/users", (req: Request, res: Response) => {
+        this.router.post("/register", (req: Request, res: Response) => {
             UserController.createUser(req, res);
         });
     }

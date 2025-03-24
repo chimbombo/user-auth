@@ -1,9 +1,10 @@
 import express, { Application } from "express";
 import { config } from "@config/index";
-import router from "@routes/userRoutes";
+import UserRouter from "@routes/userRoutes";
 import { logger } from "@config/logger";
 import { notFoundMiddleware } from "@middlewares/notFound";
 import "reflect-metadata";
+import Database from "@model/DataBase";
 
 export class Server {
     private readonly app: Application;
@@ -12,19 +13,27 @@ export class Server {
     constructor() {
         this.app = express();
         this.port = config.server.port;
-        this.routes();
-        this.app.use(notFoundMiddleware);
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
+        this.routes();
     }
 
     private routes(): void {
-        this.app.use("/api", router);
+        this.app.use("/api/user", UserRouter);
+        this.app.use(notFoundMiddleware);
     }
 
-    public start() {
-        this.app.listen(this.port, () => {
-            logger.info(`Server is running on port ${this.port}`);
-        });
+    public async start() {
+        try {
+            logger.info("Connecting to database...");
+            await Database.initialize();
+            logger.info("Database connected successfully");
+            this.app.listen(this.port, () => {
+                logger.info(`Server is running on port ${this.port}`);
+            });
+        } catch (error) {
+            logger.error("Failed to start server:", error);
+            process.exit(1);
+        }
     }
 }

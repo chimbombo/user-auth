@@ -1,6 +1,8 @@
 import { Repository } from "typeorm";
 import Database from "@model/DataBase";
 import { User } from "@entities/User";
+import { CreateUserDTO, UserResponseDTO } from "@dtos/userDTO";
+import { logger } from "@src/config/logger";
 
 export class UserRepository {
   private repo: Repository<User>;
@@ -17,9 +19,15 @@ export class UserRepository {
     return await this.repo.findOne({ where: { username } });
   }
 
-  async create(user: Partial<User>): Promise<User> {
-    const newUser = this.repo.create(user);
-    return await this.repo.save(newUser);
+  async create(user: CreateUserDTO): Promise<User> {
+    const data = await this.findByUsername(user.username);
+    if (data) {
+      logger.error(`User:${user.username} - already exists`);
+      throw new Error(`User:${user.username} - already exists`);
+    }
+
+    const savedUser = this.repo.create(user);
+    return await this.repo.save(savedUser);
   }
 
   async update(id: string, updateData: Partial<User>): Promise<User | null> {
