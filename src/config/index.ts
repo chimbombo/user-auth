@@ -21,4 +21,7 @@ export const config = {
             rejectUnauthorized: false,
         },
     },
+    bcrypt: {
+        saltRounds: Number(process.env.SALT_ROUNDS) || 10,
+    }
 };

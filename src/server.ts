@@ -3,6 +3,7 @@ import { config } from "@config/index";
 import UserRouter from "@routes/userRoutes";
 import { logger } from "@config/logger";
 import { notFoundMiddleware } from "@middlewares/notFound";
+import { errorHandlerMiddleware } from "@middlewares/errorHandler";
 import "reflect-metadata";
 import Database from "@model/DataBase";
 
@@ -21,6 +22,7 @@ export class Server {
     private routes(): void {
         this.app.use("/api/user", UserRouter);
         this.app.use(notFoundMiddleware);
+        this.app.use(errorHandlerMiddleware);
     }
 
     public async start() {

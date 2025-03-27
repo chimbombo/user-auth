@@ -4,7 +4,6 @@ export type CreateUserDTO = {
 };
 
 export type UserResponseDTO = {
-    _id: string;
     username: string;
     createdAt: Date;
     updatedAt: Date;

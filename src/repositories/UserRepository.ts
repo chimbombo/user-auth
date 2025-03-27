@@ -1,8 +1,10 @@
 import { Repository } from "typeorm";
 import Database from "@model/DataBase";
 import { User } from "@entities/User";
-import { CreateUserDTO, UserResponseDTO } from "@dtos/userDTO";
+import { CreateUserDTO } from "@dtos/userDTO";
 import { logger } from "@src/config/logger";
+import createError from "http-errors";
+import { status } from "http-status";
 
 export class UserRepository {
   private repo: Repository<User>;
@@ -23,10 +25,11 @@ export class UserRepository {
     const data = await this.findByUsername(user.username);
     if (data) {
       logger.error(`User:${user.username} - already exists`);
-      throw new Error(`User:${user.username} - already exists`);
+      throw createError(status.CONFLICT, `User already exists`);
     }
 
     const savedUser = this.repo.create(user);
+    logger.info(`User:${user.username} - created successfully`);
     return await this.repo.save(savedUser);
   }
 

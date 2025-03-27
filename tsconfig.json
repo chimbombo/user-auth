@@ -40,7 +40,8 @@
       "@model/*": ["src/model/*"],
       "@repositories/*": ["src/repositories/*"],
       "@services/*": ["src/services/*"],
-      "@dtos/*": ["src/dtos/*"]
+      "@dtos/*": ["src/dtos/*"],
+      "@validations/*": ["src/validations/*"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */

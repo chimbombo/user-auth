@@ -1,12 +1,5 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import { UserController } from "@controllers/UserController";
-
-// export const router = Router();
-
-
-// router.post("/login", (req: Request, res: Response) => {
-//     UserController.createUser(req, res);
-// })
 
 class UserRoutes {
     private router: Router;
@@ -17,8 +10,8 @@ class UserRoutes {
     }
 
     private initializeRoutes() {
-        this.router.post("/register", (req: Request, res: Response) => {
-            UserController.createUser(req, res);
+        this.router.post("/register", (req: Request, res: Response, next: NextFunction) => {
+            UserController.createUser(req, res, next);
         });
     }
 

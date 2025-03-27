@@ -19,7 +19,7 @@ export class User {
     })
     username: string;
 
-    @Column({ length: 16, nullable: false, comment: "User's password" })
+    @Column({ length: 255, nullable: false, comment: "User's password" })
     password: string;
 
     @CreateDateColumn()
